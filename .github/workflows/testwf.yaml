@@ -2,7 +2,7 @@ name: testwf
 "on":
     push:
         branches:
-            - main
+            - prod
     workflow_dispatch: {}
 env:
     ACR_RESOURCE_GROUP: FreeCreditsResourceGroup
