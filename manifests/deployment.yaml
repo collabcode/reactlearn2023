@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: testwf
+  name: CD
   labels:
-    app: testwf
-  namespace: namespace-workflow-1692021132726
+    app: CD
+  namespace: namespace-workflow-1692025496646
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: testwf
+      app: CD
   template:
     metadata:
       labels:
-        app: testwf
+        app: CD
     spec:
       containers:
-        - name: testwf
-          image: myrepository2023.azurecr.io/image-workflow-1692021132726:latest
+        - name: CD
+          image: myrepository2023.azurecr.io/image-workflow-1692025496646:latest
           ports:
             - containerPort: 3000
