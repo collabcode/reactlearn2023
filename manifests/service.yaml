@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: CD
-  namespace: namespace-workflow-1692025496646
+  name: cd
+  namespace: namespace-workflow-1692025912099
 spec:
   type: LoadBalancer
   selector:
-    app: CD
+    app: cd
   ports:
     - protocol: TCP
       port: 3000
