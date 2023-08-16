@@ -7,10 +7,11 @@ import Card from "./components/Card";
 function App() {
   //write a for loop
   const items = [1, 2, 3, 4, 5, 6, 7];
-
+  const t = new Date();
   return (
     <div className="App">
       <Message text="Hello World" />
+      <p className="text-center">{t.toISOString()}</p>
       <div className="card-group">
         {items.map((i) => (
           <Card
