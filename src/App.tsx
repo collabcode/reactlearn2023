@@ -1,20 +1,26 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Message from "./components/Message";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Card from "./components/Card";
 
 function App() {
+  //write a for loop
+  const items = [1, 2, 3, 4, 5, 6, 7];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Hello World</h1>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Message text="Hello World" />
+      <div className="card-group">
+        {items.map((i) => (
+          <Card
+            id={i}
+            title="card title"
+            description="card description"
+            image={"https://picsum.photos/seed/" + i * 100 + "/200"}
+          />
+        ))}
+      </div>
     </div>
   );
 }
