@@ -64,6 +64,10 @@ jobs:
                 manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
                 namespace: namespace-workflow-1692025912099
     postTest:
+        permissions:
+            contents: read
+            id-token: write
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
             - name: Use Node.js ${{ matrix.node-version }}
