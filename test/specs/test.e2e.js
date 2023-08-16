@@ -1,17 +1,11 @@
-const { expect, browser, $ } = require('@wdio/globals')
+const { expect, browser, $ } = require("@wdio/globals");
 
-describe('My Login application', () => {
-    it('should load the web page', async () => {
+describe("My application start", () => {
+  it("should load the home page properly", async () => {
+    await browser.url("\\");
+    await browser.pause(6000);
+    await browser.saveScreenshot("./test/screenshots/1.png");
 
-        await browser.url('./')
-        await expect(browser).toHaveUrl('/login')
-        /*
-        await browser.url('http://localhost:3000')
-
-        await expect($('#display-1')).toBeExisting()
-        await expect($('#display-1')).toHaveTextContaining(
-            'Hello World')
-            */
-    })
-})
-
+    expect(await browser.getTitle()).toEqual("React App");
+  });
+});
