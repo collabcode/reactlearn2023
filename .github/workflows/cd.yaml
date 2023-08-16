@@ -81,5 +81,8 @@ jobs:
             - run: npm ci
             - run: npm run build --if-present
             - run: npm run wdio
-
+            - uses: actions/upload-artifact@v1
+              with:
+                name: logs
+                path: logs
 
