@@ -28,11 +28,10 @@ jobs:
       - run: npm install -g chromedriver
       - run: npm ci
       - run: npm run build --if-present
-      - name: Run project
-        uses: ./
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
         with:
-          working-directory: ./
-          build: npm run build
           start: npm start
           wait-on: "http://localhost:3000"
       - run: npm run wdio
