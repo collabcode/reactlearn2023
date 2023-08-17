@@ -28,7 +28,13 @@ jobs:
       - run: npm install -g chromedriver
       - run: npm ci
       - run: npm run build --if-present
-      - run: npm start
+      - name: Run project
+        uses: ./
+        with:
+          working-directory: ./
+          build: npm run build
+          start: npm start
+          wait-on: "http://localhost:3000"
       - run: npm run wdio
       - uses: actions/upload-artifact@v3
         with:
