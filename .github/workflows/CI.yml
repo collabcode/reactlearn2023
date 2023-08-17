@@ -33,7 +33,7 @@ jobs:
         with:
           start: npm start
           install: false
-          wait-on: ${{ matrix.node-version == 18 && 'http://[::1]:4200' || 'http://localhost:4200' }}
+          wait-on: "http://localhost:3000"
       - run: npm run wdio
       - uses: actions/upload-artifact@v3
         with:
