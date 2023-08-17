@@ -84,7 +84,7 @@ exports.config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: "http://20.204.189.202:3000/",
+  baseUrl: "http://localhost:3000/",
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
@@ -301,7 +301,7 @@ exports.config = {
         // Some options, see the docs for more
         baselineFolder: join(process.cwd(), "./test/Baseline/"),
         formatImageName: "{tag}-{logName}-{width}x{height}",
-        screenshotPath: join(process.cwd(), ".tmp/"),
+        screenshotPath: join(process.cwd(), "./test/.tmp/"),
         savePerInstance: true,
         autoSaveBaseline: true,
         blockOutStatusBar: true,
