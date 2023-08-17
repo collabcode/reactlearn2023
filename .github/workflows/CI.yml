@@ -33,9 +33,11 @@ jobs:
         with:
           run: |
             npm run start
-            npm run wdio
+
           wait-for: 1m
+          wait-on: http://localhost:3000
           tail: true
+      - run: npm run wdio
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
