@@ -7,12 +7,12 @@ describe("My application start", () => {
   });
 
   it("should load the home page properly", async () => {
-    await browser.saveFullPageScreen("fullPage", {});
+    await browser.saveFullPageScreen("HomePage", {});
 
     expect(await browser.getTitle()).toEqual("React App");
   });
 
   it("should match to baseline", async () => {
-    await expect(await browser.checkFullPageScreen("fullPage", {})).toEqual(0);
+    await expect(await browser.checkFullPageScreen("HomePage", {})).toEqual(0);
   });
 });
