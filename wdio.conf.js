@@ -301,7 +301,7 @@ exports.config = {
         // Some options, see the docs for more
         baselineFolder: join(process.cwd(), "./test/Baseline/"),
         formatImageName: "{tag}-{logName}-{width}x{height}",
-        screenshotPath: join(process.cwd(), "./test/.tmp/"),
+        screenshotPath: join(process.cwd(), "./test/tmp/"),
         savePerInstance: true,
         autoSaveBaseline: true,
         blockOutStatusBar: true,
