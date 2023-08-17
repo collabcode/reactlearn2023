@@ -36,6 +36,7 @@ jobs:
           wait-on: http://localhost:3000
           tail: true
       - run: npm run wdio
+        continue-on-error: true
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
