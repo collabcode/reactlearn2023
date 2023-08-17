@@ -279,13 +279,12 @@ exports.config = {
   // }
 
   capabilities: [
-    {
+    /*{
       browserName: "firefox",
       "moz:firefoxOptions": {
         args: ["-headless"],
       },
-      /*excludeDriverLogs: ["bugreport", "server"],*/
-    },
+    },*/
     {
       browserName: "chrome",
       "goog:chromeOptions": {
