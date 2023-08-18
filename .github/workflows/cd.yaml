@@ -1,0 +1,89 @@
+name: cd
+"on":
+    push:
+        branches:
+            - prod
+    workflow_dispatch: {}
+env:
+    ACR_RESOURCE_GROUP: FreeCreditsResourceGroup
+    AZURE_CONTAINER_REGISTRY: myrepository2023
+    CLUSTER_NAME: myaks
+    CLUSTER_RESOURCE_GROUP: myaks_group
+    CONTAINER_NAME: image-workflow-1692025912099
+    DEPLOYMENT_MANIFEST_PATH: |
+        manifests/deployment.yaml
+        manifests/service.yaml
+jobs:
+    buildImage:
+        permissions:
+            contents: read
+            id-token: write
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2
+              name: Azure login
+              with:
+                client-id: ${{ secrets.AZURE_CLIENT_ID }}
+                subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+                tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            - name: Build and push image to ACR
+              run: az acr build --image ${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.ACR_RESOURCE_GROUP }} -f Dockerfile ./
+    deploy:
+        permissions:
+            actions: read
+            contents: read
+            id-token: write
+        runs-on: ubuntu-latest
+        needs:
+            - buildImage
+        steps:
+            - uses: actions/checkout@v3
+            - uses: azure/login@92a5484dfaf04ca78a94597f4f19fea633851fa2
+              name: Azure login
+              with:
+                client-id: ${{ secrets.AZURE_CLIENT_ID }}
+                subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+                tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            - uses: azure/use-kubelogin@v1
+              name: Set up kubelogin for non-interactive login
+              with:
+                kubelogin-version: v0.0.25
+            - uses: azure/aks-set-context@v3
+              name: Get K8s context
+              with:
+                admin: "false"
+                cluster-name: ${{ env.CLUSTER_NAME }}
+                resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+                use-kubelogin: "true"
+            - uses: Azure/k8s-deploy@v4
+              name: Deploys application
+              with:
+                action: deploy
+                images: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+                manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
+                namespace: namespace-workflow-1692025912099
+    postTest:
+        permissions:
+            contents: read
+            id-token: write
+        runs-on: ubuntu-latest
+        needs:
+            - deploy
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                node-version: ${{ matrix.node-version }}
+                cache: 'npm'
+            - run: npm install -g chromedriver
+            - run: npm ci
+            - run: npm run build --if-present
+            - run: npm run wdio
+            - uses: actions/upload-artifact@v1
+              with:
+                  name: my-artifact
+                  path: |
+                    **/*
+
